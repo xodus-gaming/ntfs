@@ -206,15 +206,8 @@ impl BootSector {
     }
 
     pub(crate) fn validate(&self) -> Result<()> {
+        // msixvc files may not have the legacy signature so skipping the following validation of upstream
         // Validate the infamous [0x55, 0xAA] signature at the end of the boot sector.
-        let expected_signature = &[0x55, 0xAA];
-        if &self.signature != expected_signature {
-            return Err(NtfsError::InvalidTwoByteSignature {
-                position: NtfsPosition::new(offset_of!(BootSector, signature) as u64),
-                expected: expected_signature,
-                actual: self.signature,
-            });
-        }
 
         Ok(())
     }
